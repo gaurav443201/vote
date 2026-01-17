@@ -1,0 +1,14 @@
+services:
+  # All-in-One Voting System (Backend + Frontend)
+  - type: web
+    name: vit-chainvote
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: API_KEY
+        value: "AIzaSyDrTe9Bsg8xYIS-6MwDo18vAtZ9CD6TMAE"
+      - key: PORT
+        value: 5000
+    healthCheckPath: /api/election/state

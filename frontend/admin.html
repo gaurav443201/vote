@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VIT-ChainVote Admin Dashboard">
+    <title>🔐 Shadow Dashboard | VIT-ChainVote</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <!-- Global Loading Overlay -->
+    <div id="globalLoader" class="loading-overlay hidden">
+        <div class="loader-vortex"></div>
+        <div class="loading-text" id="loaderText">Processing...</div>
+    </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                🔐 Shadow Dashboard
+            </div>
+            <div class="nav-links">
+                <span class="status-badge" id="electionStatus"></span>
+                <button class="btn btn-outline" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Control Panel -->
+        <section class="section">
+            <div class="glass-card">
+                <div class="card-header">
+                    <div>
+                        <h2 id="electionTitleDisplay">VIT-ChainVote</h2>
+                        <div id="adminEmail" style="color: var(--text-secondary);"></div>
+                    </div>
+                    <button class="btn btn-outline" onclick="editTitle()" title="Edit Title">
+                        ✏️ Edit Title
+                    </button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <button class="btn btn-success" onclick="startElection()" id="startBtn">
+                        ▶️ Start Election
+                    </button>
+                    <button class="btn btn-danger" onclick="stopElection()" id="stopBtn">
+                        ⏹️ Stop Election
+                    </button>
+                    <button class="btn btn-outline" onclick="viewAudit()">
+                        📊 View Audit
+                    </button>
+                    <button class="btn btn-danger" onclick="resetBlockchain()">
+                        🔄 Reset Ledger
+                    </button>
+                </div>
+
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center;">
+                        <div>
+                            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="totalVotes">0</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem;">Total Votes</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2rem; font-weight: bold; color: #4facfe;" id="chainLength">1</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem;">Blocks Mined</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2rem; font-weight: bold; color: #22c55e;" id="chainValid">✓</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem;">Chain Integrity</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Candidate Registration -->
+        <section class="section">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>➕ Register Candidate</h2>
+                </div>
+
+                <form id="candidateForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Candidate Name</label>
+                            <input type="text" class="form-input" id="candidateName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Department</label>
+                            <select class="form-select" id="candidateDepartment" required>
+                                <option value="">Select department</option>
+                                <option value="CSE">CSE</option>
+                                <option value="IT">IT</option>
+                                <option value="ENTC">ENTC</option>
+                                <option value="MECH">MECH</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="regBtn">
+                        🤖 Generate Manifesto & Register
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Registered Candidates -->
+        <section class="section">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>👥 Registered Candidates</h2>
+                    <button class="btn btn-outline" onclick="loadCandidates()">🔄 Refresh</button>
+                </div>
+
+                <div id="candidatesList" class="candidates-grid">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Audit Modal -->
+    <div id="auditModal" class="modal-overlay hidden">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 class="modal-title">📊 AI Election Audit</h2>
+            </div>
+            <div id="auditContent" style="max-height: 500px; overflow-y: auto;">
+                <div class="spinner"></div>
+            </div>
+            <button class="btn btn-outline" onclick="closeModal('auditModal')" style="margin-top: 1rem; width: 100%;">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script src="js/config.js?v=4"></script>
+    <script src="js/admin.js?v=4"></script>
+</body>
+
+</html>
