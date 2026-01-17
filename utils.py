@@ -4,8 +4,8 @@ import re
 VALID_DEPARTMENTS = ['CSE', 'IT', 'ENTC', 'MECH']
 
 def is_valid_vit_email(email):
-    # Allow vit.edu and gmail.com for flexibility during testing
-    re_pattern = r'^[a-zA-Z0-9._%+-]+@(vit\.edu|gmail\.com)$'
+    # Strict format: name.prnno@vit.edu (e.g., prem.1251040044@vit.edu)
+    re_pattern = r'^[a-z]+\.[0-9]{10}@vit\.edu$'
     return bool(re.match(re_pattern, email.lower()))
 
 def is_shadow_admin(email):

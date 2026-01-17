@@ -207,10 +207,10 @@ document.getElementById('voterLoginForm')?.addEventListener('submit', async (e) 
         return;
     }
 
-    // Validate email format (Allow vit.edu and gmail.com for testing)
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@(vit\.edu|gmail\.com)$/;
+    // Strict format matching: name.1234567890@vit.edu
+    const emailPattern = /^[a-z]+\.[0-9]{10}@vit\.edu$/;
     if (!emailPattern.test(email)) {
-        alert('❌ Invalid email. Use: name.prn@vit.edu or gmail for testing.');
+        alert('❌ Invalid email format. Use: name.prnno@vit.edu (e.g., prem.1251040044@vit.edu)');
         if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.innerText = originalText;
